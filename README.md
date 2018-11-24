@@ -1,2 +1,2 @@
-# Darin/Lab1
+# Darin
 Darin Practice HSE 2018
