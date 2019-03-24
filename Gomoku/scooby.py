@@ -11,7 +11,6 @@ import random
 import time
 import torch
 from torch import utils
-from torchvision import datasets, transforms
 from torch.autograd import Variable
 import torch.nn as nn
 import torch.nn.functional as F
@@ -20,6 +19,7 @@ import sys
 
 n = 15
 goal = 5
+
 
 
 def get_log(moves, winner):
@@ -73,6 +73,11 @@ class CNN(torch.nn.Module):
         x = self.norm5(x)
         x = self.fc2(x)
         return (x)
+
+
+model = CNN()
+model.load_state_dict(torch.load("upd2", map_location='cpu'))
+model.eval()
 
 def format_move(old_move):
     y, x = let_to_dig[old_move[0]], int(old_move[1:])
@@ -195,7 +200,7 @@ def open_three(x, y, grid):
 
 
 
-def make_move(log):
+def make_move(log, grid=None):
     st = time.time()
     log = log.strip()
     if log == '':
@@ -259,10 +264,6 @@ def main():
                 return
             logging.debug('Game: [%s]', game.dumps())
             move = make_move(game.dumps())
-            logging.debug("\n___________________________\n")
-            for i in range(len(game.board())):
-                    logging.debug(game.board()[i])
-            logging.debug("\n___________________________\n")
             if not backend.set_move(move):
                 logging.error("Impossible set move!")
                 return
@@ -277,6 +278,6 @@ if __name__ == "__main__":
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     torch.backends.cudnn.benchmark = True
     model = CNN()
-    model.load_state_dict(torch.load("upd2", map_location='cpu'))
+    model.load_state_dict(torch.load("upd3", map_location='cpu'))
     model.eval()
     main()
