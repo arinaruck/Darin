@@ -8,7 +8,11 @@ Visualization is in file visual.py
 Requirements:
 
 python3 3.6.
+
 pytorch 1.0.0
+
 tkinter 8.6
+
 numpy 1.16.0
+
 sys 3.6.7
